@@ -11,8 +11,9 @@
 	</parent>
 	<groupId>com.ava.task</groupId>
 	<artifactId>ava</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-RELEASE</version>
 	<name>ava</name>
+	<packaging>jar</packaging>
 	<description>Ava task</description>
 
 	<properties>
@@ -23,10 +24,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.session</groupId>
-			<artifactId>spring-session-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
