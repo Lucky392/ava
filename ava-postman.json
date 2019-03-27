@@ -1,0 +1,346 @@
+{
+	"info": {
+		"_postman_id": "fa3688b4-b421-42fe-92ec-686755d202ad",
+		"name": "Ava",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login admin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\" : \"admin@gmail.com\",\n\t\"password\" : \"admin\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				},
+				"description": "Login to get Authorization token"
+			},
+			"response": []
+		},
+		{
+			"name": "Login user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\" : \"user\",\n\t\"password\" : \"admin\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				},
+				"description": "Login to get regular user"
+			},
+			"response": []
+		},
+		{
+			"name": "Admin path with regular user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJST0xFIjpbIlJPTEVfVVNFUiJdLCJzdWIiOiJ1c2VyIiwiQURNSU4iOmZhbHNlLCJleHAiOjE1NTQ1Mzg5MzR9.FNq-KJVUOmdiKqSwe1E7jN4S4WGyhUiYiiF7T_CWz5xFV3g2StUzZHxqRnOdGHqJdbP1t7GPVemG16p1earN9A",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"admin"
+					]
+				},
+				"description": "Trying to execute admin action with regular user"
+			},
+			"response": []
+		},
+		{
+			"name": "Get users by criteria",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJST0xFIjpbIlJPTEVfQURNSU4iXSwic3ViIjoiYWRtaW5AZ21haWwuY29tIiwiQURNSU4iOnRydWUsImV4cCI6MTU1NDUzOTEwN30.3DawBMQcRfpLxHZWffjNCsh_jUjJq1ciSizMsP8mwi2RqWHm97fLbhyKQg1Gh_fznIN_P4LDSprfwdlrqW3esg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstName\": \"admin\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"admin"
+					]
+				},
+				"description": "Request to get all users by criteria. If body is empty, all users will be returned."
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJST0xFIjpbIlJPTEVfQURNSU4iXSwic3ViIjoiYWRtaW5AZ21haWwuY29tIiwiQURNSU4iOnRydWUsImV4cCI6MTU1NDUzOTEwN30.3DawBMQcRfpLxHZWffjNCsh_jUjJq1ciSizMsP8mwi2RqWHm97fLbhyKQg1Gh_fznIN_P4LDSprfwdlrqW3esg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/admin/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"admin",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJST0xFIjpbIlJPTEVfQURNSU4iXSwic3ViIjoiYWRtaW5AZ21haWwuY29tIiwiQURNSU4iOnRydWUsImV4cCI6MTU1NDUzOTEwN30.3DawBMQcRfpLxHZWffjNCsh_jUjJq1ciSizMsP8mwi2RqWHm97fLbhyKQg1Gh_fznIN_P4LDSprfwdlrqW3esg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"drugar\",\n    \"lastName\": \"drugi\",\n    \"email\": \"drugar@gmail.com\",\n    \"password\": \"drugar\",\n    \"country\": null,\n    \"address\": null,\n    \"admin\": false\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin update user",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJST0xFIjpbIlJPTEVfQURNSU4iXSwic3ViIjoiYWRtaW5AZ21haWwuY29tIiwiQURNSU4iOnRydWUsImV4cCI6MTU1NDUzOTEwN30.3DawBMQcRfpLxHZWffjNCsh_jUjJq1ciSizMsP8mwi2RqWHm97fLbhyKQg1Gh_fznIN_P4LDSprfwdlrqW3esg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\" : 3,\n    \"firstName\": \"drugar2\",\n    \"lastName\": \"drugi2\",\n    \"email\": \"drugar@gmail.com\",\n    \"password\": \"drugar\",\n    \"country\": null,\n    \"address\": null,\n    \"admin\": false\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User get my details",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJST0xFIjpbIlJPTEVfVVNFUiJdLCJzdWIiOiJ1c2VyIiwiQURNSU4iOmZhbHNlLCJleHAiOjE1NTQ1NDExMjF9.lL-OJ3Fq2HQUeUB7tLCoX-1ciOLYuPxP1C5nMjohT_mfBFToExFgaHBH5SoQMp3rPoq5JVW4l1wTrZOewsOXEg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\" : 3,\n    \"firstName\": \"drugar2\",\n    \"lastName\": \"drugi2\",\n    \"email\": \"drugar@gmail.com\",\n    \"password\": \"drugar\",\n    \"country\": null,\n    \"address\": null,\n    \"admin\": false\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/ava",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"ava"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User update details",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJST0xFIjpbIlJPTEVfVVNFUiJdLCJzdWIiOiJ1c2VyIiwiQURNSU4iOmZhbHNlLCJleHAiOjE1NTQ1NDExMjF9.lL-OJ3Fq2HQUeUB7tLCoX-1ciOLYuPxP1C5nMjohT_mfBFToExFgaHBH5SoQMp3rPoq5JVW4l1wTrZOewsOXEg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"user1\",\n    \"lastName\": \"user1\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/ava",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"ava"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
