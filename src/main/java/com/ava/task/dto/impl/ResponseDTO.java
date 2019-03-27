@@ -6,6 +6,8 @@ public class ResponseDTO implements AbstractDTO {
 
 	private String message;
 	
+	public ResponseDTO() { }
+	
 	public ResponseDTO(String message) {
 		this.message = message;
 	}

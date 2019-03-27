@@ -1,19 +1,17 @@
 package com.ava.task.api;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ava.task.api.constants.AvaRouter;
+import com.ava.task.dto.AbstractDTO;
 import com.ava.task.dto.impl.ResponseDTO;
 import com.ava.task.dto.impl.UserDTO;
 import com.ava.task.exception.AvaException;
@@ -31,41 +29,24 @@ public class RegularController {
 	}
 
 	@GetMapping
-	public ResponseEntity<UserDTO> getDetails(Authentication auth) {
-		String email = (String) auth.getPrincipal();
+	public ResponseEntity<AbstractDTO> getDetails(Authentication auth) {
+		final String email = (String) auth.getPrincipal();
 		try {
 			return ResponseEntity.ok(userService.getUser(email));
 		} catch (AvaException e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO(e.getMessage()));
 		}
 	}
 	
-	@PutMapping
-	public ResponseEntity<ResponseDTO> updateDetails(@Valid @RequestBody UserDTO user, Authentication auth) {
-		String email = (String) auth.getPrincipal();
-		userService.updateUser(email, user);
-		if (email.equals(user.getEmail())) {
-			return ResponseEntity.ok().build();
-		} else {
-			return ResponseEntity.ok(new ResponseDTO("Please login again!"));			
-		}
-	}
-
 	@PatchMapping
-	public ResponseEntity<ResponseDTO> updateDetailsParial(@RequestBody UserDTO user, Authentication auth) {
-		String email = (String) auth.getPrincipal();
-		if (user != null) {
-			userService.updateUserPartial(email, user);
-			return checkEmailChange(email, user);
-		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-	}
-
-	private ResponseEntity<ResponseDTO> checkEmailChange(String email, UserDTO user) {
-		if (email.equals(user.getEmail())) {				
+	public ResponseEntity<ResponseDTO> updateDetailsPartial(@RequestBody UserDTO user, Authentication auth) {
+		final String email = (String) auth.getPrincipal();
+		try {
+			userService.updateUser(email, user);
 			return ResponseEntity.ok().build();
+		} catch (AvaException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO(e.getMessage()));
 		}
-		return ResponseEntity.ok(new ResponseDTO("Please login again!"));
 	}
 
 }

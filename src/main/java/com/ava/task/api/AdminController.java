@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,29 +56,17 @@ public class AdminController {
 			userService.createUser(user);
 			return ResponseEntity.ok().build();
 		} catch (AvaException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO(e.getMessage()));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO(e.getMessage()));
 		}
 	}
 	
-	
-	@PutMapping(value = AvaRouter.FIND_BY_ID)
-	public ResponseEntity<ResponseDTO> updateUser(@PathVariable(name = RestVariable.ID) long id, @Valid @RequestBody UserDTO user) {
+	@PatchMapping
+	public ResponseEntity<ResponseDTO> updateUserPartial(@RequestBody UserDTO user) {
 		try {
-			userService.updateUser(id, user);
+			userService.updateUser(user);
 			return ResponseEntity.ok().build();
 		} catch (AvaException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO(e.getMessage()));
-		}
-	}
-
-
-	@PatchMapping(value = AvaRouter.FIND_BY_ID)
-	public ResponseEntity<ResponseDTO> updateUserPartial(@PathVariable(name = RestVariable.ID) long id, @RequestBody UserDTO user) {
-		try {
-			userService.updateUserPartial(id, user);
-			return ResponseEntity.ok().build();
-		} catch (AvaException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO(e.getMessage()));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO(e.getMessage()));
 		}
 	}
 

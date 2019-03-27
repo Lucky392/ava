@@ -1,9 +1,12 @@
 package com.ava.task.converter.impl;
 
+import org.springframework.stereotype.Service;
+
 import com.ava.task.converter.Converter;
 import com.ava.task.dto.impl.UserDTO;
 import com.ava.task.model.impl.User;
 
+@Service
 public class UserConverter implements Converter<User, UserDTO> {
 
 	@Override

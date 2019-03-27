@@ -34,6 +34,8 @@ public class UserAudit {
 	@Column(name = "date")
 	@NonNull
 	private Date date;
+	
+	public UserAudit() { }
 
 	public UserAudit(String path, String username, String method, Date date) {
 		this.path = path;

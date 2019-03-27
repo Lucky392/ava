@@ -33,7 +33,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            UserDTO creds = new ObjectMapper()
+            final UserDTO creds = new ObjectMapper()
                     .readValue(req.getInputStream(), UserDTO.class);
             
             return authenticationManager.authenticate(

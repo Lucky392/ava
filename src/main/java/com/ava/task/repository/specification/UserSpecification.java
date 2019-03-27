@@ -30,23 +30,45 @@ public class UserSpecification implements Specification<User> {
 	@Override
 	public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 		final List<Predicate> predicates = new LinkedList<Predicate>();
-		
-		if (!StringUtils.isEmpty(criteria.getFirstName())) {
-			predicates.add(criteriaBuilder.equal(root.get("firstName"), criteria.getFirstName()));
+		if (criteria != null) {			
+			firstNamePredicate(root, criteriaBuilder, predicates);
+			lastNamePredicate(root, criteriaBuilder, predicates);
+			emailPredicate(root, criteriaBuilder, predicates);
+			addressPredicate(root, criteriaBuilder, predicates);
+			countryPredicate(root, criteriaBuilder, predicates);
 		}
-		if (!StringUtils.isEmpty(criteria.getLastName())) {
-			predicates.add(criteriaBuilder.equal(root.get("lastName"), criteria.getLastName()));
-		}
-		if (!StringUtils.isEmpty(criteria.getEmail())) {
-			predicates.add(criteriaBuilder.equal(root.get("email"), criteria.getEmail()));
-		}
-		if (!StringUtils.isEmpty(criteria.getAddress())) {
-			predicates.add(criteriaBuilder.equal(root.get("address"), criteria.getAddress()));
-		}
+		return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+	}
+
+	private void countryPredicate(Root<User> root, CriteriaBuilder criteriaBuilder, final List<Predicate> predicates) {
 		if (!StringUtils.isEmpty(criteria.getCountry())) {
 			predicates.add(criteriaBuilder.equal(root.get("country"), criteria.getCountry()));
 		}
-		return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+	}
+
+	private void addressPredicate(Root<User> root, CriteriaBuilder criteriaBuilder, final List<Predicate> predicates) {
+		if (!StringUtils.isEmpty(criteria.getAddress())) {
+			predicates.add(criteriaBuilder.equal(root.get("address"), criteria.getAddress()));
+		}
+	}
+
+	private void emailPredicate(Root<User> root, CriteriaBuilder criteriaBuilder, final List<Predicate> predicates) {
+		if (!StringUtils.isEmpty(criteria.getEmail())) {
+			predicates.add(criteriaBuilder.equal(root.get("email"), criteria.getEmail()));
+		}
+	}
+
+	private void lastNamePredicate(Root<User> root, CriteriaBuilder criteriaBuilder, final List<Predicate> predicates) {
+		if (!StringUtils.isEmpty(criteria.getLastName())) {
+			predicates.add(criteriaBuilder.equal(root.get("lastName"), criteria.getLastName()));
+		}
+	}
+
+	private void firstNamePredicate(Root<User> root, CriteriaBuilder criteriaBuilder,
+			final List<Predicate> predicates) {
+		if (!StringUtils.isEmpty(criteria.getFirstName())) {
+			predicates.add(criteriaBuilder.equal(root.get("firstName"), criteria.getFirstName()));
+		}
 	}
 
 }

@@ -31,63 +31,60 @@ import java.util.stream.Collectors;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private static final String EMPTY_STRING = "";
-    
-    private UserAuditService userAuditService;
+	private static final String EMPTY_STRING = "";
+
+	private UserAuditService userAuditService;
 
 	public JWTAuthorizationFilter(AuthenticationManager authManager) {
-        super(authManager);
-    }
+		super(authManager);
+	}
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest req,
-                                    HttpServletResponse res,
-                                    FilterChain chain) throws IOException, ServletException {
-    	
-    	if (userAuditService == null) {
-    		ServletContext servletContext = req.getServletContext();
-            WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-            userAuditService = webApplicationContext.getBean(UserAuditService.class);
+	@Override
+	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
+
+		if (userAuditService == null) {
+			ServletContext servletContext = req.getServletContext();
+			WebApplicationContext webApplicationContext = WebApplicationContextUtils
+					.getWebApplicationContext(servletContext);
+			userAuditService = webApplicationContext.getBean(UserAuditService.class);
 		}
-    	
-        final String header = req.getHeader(HEADER_STRING);
 
-        if (header == null || !header.startsWith(TOKEN_PREFIX)) {
-            chain.doFilter(req, res);
-            return;
-        }
+		final String header = req.getHeader(HEADER_STRING);
 
-       final  UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+		if (header == null || !header.startsWith(TOKEN_PREFIX)) {
+			chain.doFilter(req, res);
+			return;
+		}
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        chain.doFilter(req, res);
-    }
+		final UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
 
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(HEADER_STRING);
-        if (token != null) {
-        	
-        	final DecodedJWT jwt = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
-                    .build()
-                    .verify(token.replace(TOKEN_PREFIX, EMPTY_STRING));
-        	
-            // parse the token.
-            final String user = jwt.getSubject();
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		chain.doFilter(req, res);
+	}
 
-            if (user != null) {
-            	
-            	if (jwt.getClaim(SecurityConstants.ADMIN).asBoolean()) {
-            		userAuditService.createAudit(request.getRequestURI(), request.getMethod(), user, new Date());
+	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
+		final String token = request.getHeader(HEADER_STRING);
+		if (token != null) {
+
+			final DecodedJWT jwt = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build()
+					.verify(token.replace(TOKEN_PREFIX, EMPTY_STRING));
+
+			// parse the token.
+			final String user = jwt.getSubject();
+
+			if (user != null) {
+
+				if (jwt.getClaim(SecurityConstants.ADMIN).asBoolean()) {
+					userAuditService.createAudit(request.getRequestURI(), request.getMethod(), user, new Date());
 				}
-            	
-            	final List<SimpleGrantedAuthority> authorities = jwt.getClaim(SecurityConstants.ROLE)
-            			.asList(String.class).stream()
-            			.map(SimpleGrantedAuthority::new)
-            			.collect(Collectors.toList());
-            	
-            	return new UsernamePasswordAuthenticationToken(user, null, authorities);
-            }
-        }
-        return null;
-    }
+
+				final List<SimpleGrantedAuthority> authorities = jwt.getClaim(SecurityConstants.ROLE)
+						.asList(String.class).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+
+				return new UsernamePasswordAuthenticationToken(user, null, authorities);
+			}
+		}
+		return null;
+	}
 }
