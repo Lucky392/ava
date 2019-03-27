@@ -11,8 +11,12 @@ import com.ava.task.repository.UserAuditRepository;
 @Service
 public class UserAuditService {
 	
-	@Autowired
 	private UserAuditRepository userAuditRepository;
+	
+	@Autowired
+	public UserAuditService(UserAuditRepository userAuditRepository) {
+		this.userAuditRepository = userAuditRepository;
+	}
 
 	public void createAudit(String path, String method, String username, Date date) {
 		userAuditRepository.save(new UserAudit(path, username, method, date));

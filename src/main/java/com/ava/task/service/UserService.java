@@ -22,15 +22,14 @@ import com.ava.task.repository.specification.UserSpecification;
 @Service
 public class UserService {
 	
-	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	private Converter<User, UserDTO> converter;
 	
-	public UserService() {
+	@Autowired
+	public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		try {
 			converter = AvaFactory.getConverter(UserConverter.class);
 		} catch (AvaException e) {

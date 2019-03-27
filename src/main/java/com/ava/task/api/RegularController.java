@@ -23,8 +23,12 @@ import com.ava.task.service.UserService;
 @RequestMapping(value=AvaRouter.REGULAR)
 public class RegularController {
 	
-	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	public RegularController(UserService userService) {
+		this.userService = userService;
+	}
 
 	@GetMapping
 	public ResponseEntity<UserDTO> getDetails(Authentication auth) {

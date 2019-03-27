@@ -27,8 +27,12 @@ import com.ava.task.service.UserService;
 @RequestMapping(value=AvaRouter.ADMIN)
 public class AdminController {
 	
-	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	public AdminController(UserService userService) {
+		this.userService = userService;
+	}
 	
 
 	@GetMapping(value = AvaRouter.FIND_BY_ID)
